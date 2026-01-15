@@ -22,6 +22,7 @@ jobs:
       with:
         ruby-version: ${{ matrix.ruby-version }}
         bundler-cache: true
+        cache-version: 1
 
     - name: Run tests
       run: bundle exec rspec
@@ -41,6 +42,7 @@ jobs:
       with:
         ruby-version: '3.3'
         bundler-cache: true
+        cache-version: 1
 
     - name: Build gem
       run: gem build fotmob.gemspec
