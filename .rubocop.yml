@@ -1,0 +1,96 @@
+AllCops:
+  TargetRubyVersion: 2.7
+  NewCops: enable
+  SuggestExtensions: false
+  Exclude:
+    - 'vendor/**/*'
+    - 'spec/fixtures/**/*'
+    - 'tmp/**/*'
+
+# Prefer modern Ruby style
+Style/StringLiterals:
+  EnforcedStyle: double_quotes
+
+Style/StringLiteralsInInterpolation:
+  EnforcedStyle: double_quotes
+
+# Allow longer lines for readability
+Layout/LineLength:
+  Max: 120
+  Exclude:
+    - 'spec/**/*'
+
+# Relax method length for specs
+Metrics/MethodLength:
+  Max: 40
+  Exclude:
+    - "spec/**/*"
+
+# Relax class length
+Metrics/ClassLength:
+  Max: 150
+
+# Relax ABC size
+Metrics/AbcSize:
+  Max: 35
+
+# Relax block length for specs and DSLs
+Metrics/BlockLength:
+  Exclude:
+    - 'spec/**/*'
+    - 'fotmob.gemspec'
+    - 'Rakefile'
+
+# Documentation is good but not required everywhere
+Style/Documentation:
+  Enabled: false
+
+# Allow compact module/class definitions
+Style/ClassAndModuleChildren:
+  Enabled: false
+
+# Prefer keyword arguments
+Style/ArgumentsForwarding:
+  Enabled: true
+
+# Modern hash syntax
+Style/HashSyntax:
+  EnforcedStyle: ruby19
+
+# Frozen string literal comment
+Style/FrozenStringLiteralComment:
+  Enabled: true
+  EnforcedStyle: always
+
+# Align with Ruby community standards
+Layout/EmptyLineAfterGuardClause:
+  Enabled: false
+
+Layout/SpaceAroundMethodCallOperator:
+  Enabled: true
+
+Lint/RaiseException:
+  Enabled: true
+
+Lint/StructNewOverride:
+  Enabled: true
+
+Style/ExponentialNotation:
+  Enabled: true
+
+Style/HashEachMethods:
+  Enabled: true
+
+Style/HashTransformKeys:
+  Enabled: true
+
+Style/HashTransformValues:
+  Enabled: true
+
+# URI.open is safe for our use case (HTTP only)
+Security/Open:
+  Enabled: false
+
+# Gemspec development dependencies are fine
+Gemspec/DevelopmentDependencies:
+  Enabled: false
