@@ -1,6 +1,7 @@
 # Fotmob Ruby Gem
 
 [![Gem Version](https://badge.fury.io/rb/fotmob.svg)](https://badge.fury.io/rb/fotmob)
+[![CI](https://github.com/bjrsti/fotmob/actions/workflows/ci.yml/badge.svg)](https://github.com/bjrsti/fotmob/actions/workflows/ci.yml)
 [![Ruby](https://img.shields.io/badge/ruby-%3E%3D%202.7-ruby.svg)](https://www.ruby-lang.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
