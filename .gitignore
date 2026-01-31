@@ -1,3 +1,16 @@
 test_client.rb
 Gemfile.lock
 .rspec_status
+
+# Built gems
+*.gem
+
+# Test data
+teams.json
+
+# macOS
+.DS_Store
+
+# Bundler
+vendor/bundle
+.bundle
