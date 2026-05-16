@@ -5,17 +5,16 @@
 [![Ruby](https://img.shields.io/badge/ruby-%3E%3D%202.7-ruby.svg)](https://www.ruby-lang.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-An unofficial Ruby wrapper for the [FotMob](https://www.fotmob.com/) API. Get football/soccer data including team stats, match details, player information, and league standings.
+An unofficial Ruby wrapper for the [FotMob](https://www.fotmob.com/) API. Get football/soccer data including team stats, match details, and league standings.
 
 ## Features
 
 - 🏆 **Team Data** - Get comprehensive team information and statistics
-- ⚽ **Match Details** - Detailed match information and live scores
-- 👤 **Player Stats** - Player profiles and performance data
-- 📊 **League Standings** - League tables and competition data
+- ⚽ **Match Details** - Detailed match information including lineups, stats, and live scores
+- 📅 **Matches by Date** - All matches for a given day across 150+ leagues
+- 📊 **League Data** - League tables, fixtures, and competition details
 - 🛡️ **Error Handling** - Custom error classes for different scenarios
-- ⏱️ **Timeout Support** - Configurable request timeouts
-- 📝 **Well Documented** - YARD documentation included
+- ⏱️ **Configurable** - Timeout and timezone support
 
 ## Installation
 
@@ -36,80 +35,70 @@ gem install fotmob
 ```ruby
 require 'fotmob'
 
-# Create a client
 client = Fotmob.new
 
-# Get team information
-team = client.get_team("8540") # Palermo
+# All matches for today
+matches = client.get_matches("20260516")
+matches[:leagues].each { |l| puts l[:name] }
+
+# Match details (lineups, stats, events)
+match = client.get_match_details("5315746")
+puts "#{match[:general][:homeTeam][:name]} vs #{match[:general][:awayTeam][:name]}"
+puts match[:header][:status][:scoreStr]
+
+# Team info
+team = client.get_team("8455") # Chelsea
 puts team[:details][:name]
 
-# Get match details
-match = client.get_match_details("4193741")
-puts "#{match[:general][:homeTeam][:name]} vs #{match[:general][:awayTeam][:name]}"
-
-# Get player data
-player = client.get_player("961995") # Mbappé
-puts player[:name]
-
-# Get league standings
+# League standings
 league = client.get_league("47") # Premier League
 puts league[:details][:name]
 ```
 
 ## API Methods
 
-### `get_team(team_id)`
+### `get_matches(date)`
 
-Get comprehensive team information.
+All matches for a given date (150+ leagues).
 
 ```ruby
-team = client.get_team("8540")
-# Returns: Hash with team details, fixtures, squad, etc.
+matches = client.get_matches("20260516")
+# Returns: { leagues: [...], date: "..." }
+# Each league has a :matches array with scores, teams, status
 ```
 
 ### `get_match_details(match_id)`
 
-Get detailed match information.
+Full match data — lineups, stats, events, shotmap.
 
 ```ruby
-match = client.get_match_details("4193741")
-# Returns: Hash with match details, lineups, events, stats
+match = client.get_match_details("5315746")
+# Returns: { general:, header:, content: { stats:, lineup:, shotmap:, ... } }
 ```
 
-### `get_player(player_id)`
+### `get_team(team_id)`
 
-Get player profile and statistics.
+Team overview, fixtures, and squad.
 
 ```ruby
-player = client.get_player("961995")
-# Returns: Hash with player info and stats
+team = client.get_team("8455")
+# Returns: { details:, overview:, fixtures:, ... }
 ```
 
 ### `get_league(league_id)`
 
-Get league/competition information.
+League table, fixtures, and stats.
 
 ```ruby
 league = client.get_league("47")
-# Returns: Hash with league details and standings
-```
-
-### `get_matches(date)` ⚠️
-
-**Note:** This endpoint currently requires special authentication headers and may not work reliably.
-
-```ruby
-matches = client.get_matches("20250114")
-# Returns: Hash with matches for the specified date
+# Returns: { details:, table:, fixtures:, stats:, ... }
 ```
 
 ## Configuration
 
-### Custom Timeout
-
 ```ruby
-# Default timeout is 10 seconds
-client = Fotmob.new(timeout: 30)
+# Defaults: timeout 10s, timezone Europe/Paris
+client = Fotmob.new(timeout: 30, timezone: "Europe/Paris")
 ```
 
 ## Error Handling
@@ -179,16 +168,11 @@ bundle exec rspec
 
 ## Finding IDs
 
-To use the API, you need IDs for teams, players, matches, and leagues:
+IDs are in the fotmob.com URL for each resource:
 
-- **Teams**: Visit [fotmob.com](https://www.fotmob.com/), search for a team, the ID is in the URL
-  - Example: `fotmob.com/teams/8540/overview/palermo` → Team ID: `8540`
-- **Players**: Search for a player, ID is in the URL
-  - Example: `fotmob.com/players/961995/kylian-mbappe` → Player ID: `961995`
-- **Matches**: Browse matches, ID is in the match URL
-  - Example: `fotmob.com/match/4193741` → Match ID: `4193741`
-- **Leagues**: Browse leagues, ID is in the league URL
-  - Example: `fotmob.com/leagues/47/overview/premier-league` → League ID: `47`
+- **Teams**: `fotmob.com/teams/8455/overview/chelsea` → `8455`
+- **Matches**: `fotmob.com/matches/chelsea-vs-manchester-city/abc123#5315746` → `5315746`
+- **Leagues**: `fotmob.com/leagues/47/overview/premier-league` → `47`
 
 ## Disclaimer
 
