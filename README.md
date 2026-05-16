@@ -38,7 +38,7 @@ require 'fotmob'
 client = Fotmob.new
 
 # All matches for today
-matches = client.get_matches("20260516")
+matches = client.get_matches("20251030")
 matches[:leagues].each { |l| puts l[:name] }
 
 # Match details (lineups, stats, events)
@@ -62,7 +62,7 @@ puts league[:details][:name]
 All matches for a given date (150+ leagues).
 
 ```ruby
-matches = client.get_matches("20260516")
+matches = client.get_matches("20251030")
 # Returns: { leagues: [...], date: "..." }
 # Each league has a :matches array with scores, teams, status
 ```
@@ -98,7 +98,7 @@ league = client.get_league("47")
 
 ```ruby
 # Defaults: timeout 10s, timezone Europe/Paris
-client = Fotmob.new(timeout: 30, timezone: "Europe/Paris")
+client = Fotmob.new(timeout: 30, timezone: "America/New_York")
 ```
 
 ## Error Handling
