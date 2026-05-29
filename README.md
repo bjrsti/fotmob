@@ -152,11 +152,23 @@ bundle exec rake console
 
 ## Testing
 
-The gem uses RSpec for testing with VCR for recording API responses:
+The gem has two test layers:
+
+**Unit tests** (default) — fast, offline, using VCR cassettes to replay recorded API responses:
 
 ```bash
 bundle exec rspec
+# or
+bundle exec rake
 ```
+
+**Integration tests** — hit the live Fotmob API to catch upstream changes. Run manually or on a schedule:
+
+```bash
+FOTMOB_INTEGRATION=true bundle exec rspec spec/integration/
+```
+
+Integration tests are excluded from the default suite. Run them periodically (e.g. monthly) or whenever you suspect the API has changed.
 
 ## Contributing
 

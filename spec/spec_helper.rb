@@ -31,4 +31,16 @@ RSpec.configure do |config|
 
   # Use documentation format for readable test output
   config.formatter = :documentation
+
+  # Integration tests hit the live API — skip unless FOTMOB_INTEGRATION=true
+  config.filter_run_excluding :integration unless ENV["FOTMOB_INTEGRATION"] == "true"
+
+  # Allow real HTTP for integration tests; block everything else via WebMock/VCR
+  config.around(:each, :integration) do |example|
+    VCR.turned_off do
+      WebMock.allow_net_connect!
+      example.run
+      WebMock.disable_net_connect!
+    end
+  end
 end
